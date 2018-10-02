@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huanghonghao.mybatis.mapper.UserMapper">
+
+	<!-- 对当前mapper启用二级缓存 -->
+	<cache/>
+
+	<insert id="insertUser"
+		parameterType="com.huanghonghao.mybatis.model.User">
+		<!-- 插入之前生成一个UUID并set到User中的id字段 -->
+		<selectKey resultType="java.lang.String" keyProperty="id"
+			order="BEFORE">
+			SELECT UUID();
+		</selectKey>
+		insert into user(id,name,password,createDate,expDate)
+		values(#{id},#{name},#{password},#{createDate},#{expDate})
+		<!-- 获取最后的自增序列值 ,order指定在insert之后执行，指定keyProperty最后会把值set到User类的id字段上 -->
+		<!-- <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER"> 
+			select last_insert_id(); </selectKey> -->
+	</insert>
+	<delete id="deleteUserById" parameterType="java.lang.String">
+		DELETE FROM USER
+		WHERE
+		ID = #{id}
+	</delete>
+	<!-- 
+		flushCache="true"   刷新缓存/清空缓存,可以避免数据脏读, 默认true
+	 -->
+	<update id="updateUserById"
+		parameterType="com.huanghonghao.mybatis.model.User" flushCache="true">
+		UPDATE user
+		SET name = #{name},
+		password = #{password},
+		expDate =
+		#{expDate}
+		WHERE
+		id = #{id};
+	</update>
+	<!-- select: 表示一个MapperStatement对象
+		 id：statement的唯一标识 
+		 #{}： 表示一个占位符？
+	  	 ${}: 表示一个字符串拼接，有sql注入问题
+	  	 useCache="false"    禁止当前select使用缓存，默认true
+	 -->
+	<select id="queryUserById" parameterType="java.lang.String"
+		resultType="com.huanghonghao.mybatis.model.User" useCache="false">
+		select * from USER
+		where id = #{id}
+	</select>
+</mapper>
