@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.huanghonghao.mybatis.mapper.UserMapper">
 
 	<!-- 对当前mapper启用二级缓存 -->
-	<cache/>
+	<!-- <cache /> -->
 
 	<insert id="insertUser"
 		parameterType="com.huanghonghao.mybatis.model.User">

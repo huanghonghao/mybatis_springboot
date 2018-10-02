@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huanghonghao.mybatis.entity.FindUserResp;
+import com.huanghonghao.mybatis.model.User;
 import com.huanghonghao.mybatis.service.UserManagerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +26,12 @@ public class UserController {
 	public FindUserResp findUserById(@RequestBody FindUserResp id) {
 		log.info("id: {}", id.getId());
 		return userManagerService.findUserById(id.getId());
+	}
+	
+	@RequestMapping(path = "/addUser", method = RequestMethod.POST, produces = "application/text;charset=UTF-8")
+	@ResponseBody
+	public String addUser(@RequestBody FindUserResp userResp) {
+		User temp = userManagerService.addUser(userResp);
+		return temp.getId() + "," + temp.getName();
 	}
 }

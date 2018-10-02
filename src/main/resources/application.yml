@@ -7,12 +7,15 @@ spring:
     url: jdbc:mysql://localhost:3366/mybatis_db?useSSL=true
     username: root
     password: 123456
-  redis:    host: 127.0.0.1
+  redis:
+    database: 0    host: 127.0.0.1
     port: 6379
     password: 123456
  
 logging:  config: classpath:logback-spring.xml
   level:
     com.huanghonghao.mybatis.mapper: debug
+    com.huanghonghao.mybatis.impl: debug
 
 mybatis:  mapper-locations:  - classpath:mapping/*.xml
+  configuration:    cache-enabled: true
